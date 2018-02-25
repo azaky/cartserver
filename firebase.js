@@ -34,12 +34,15 @@ const orderObserver = order.onSnapshot(querySnapshot => {
         return;
     }
     if (size > lastOrderSize) {
+
         logger.info('Opening cart ...');
         setCartState(true)
             .then(() => {
                 setTimeout(() => {
                     logger.info('Closing cart ...');
                     setCartState(false);
+                    logger.info('Resetting cart ...');
+                    lastSize = 0;
                 }, openOrderDelay);
             });
     }
