@@ -30,7 +30,10 @@ const observer = cart.onSnapshot(querySnapshot => {
         logger.info('Opening cart ...');
         setCartState(true)
             .then(() => {
-                setTimeout(() => setCartState(false), openDelay);
+                setTimeout(() => {
+                    logger.info('Closing cart ...');
+                    setCartState(false);
+                }, openDelay);
             });
     }
     lastSize = size;
@@ -44,5 +47,6 @@ module.exports = {
     observer,
     cart,
     cartOpener,
+    setCartState,
 };
 

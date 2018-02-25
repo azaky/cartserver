@@ -6,7 +6,7 @@ const https = require('https');
 const config = require('./config');
 const logger = require('./logger');
 
-const {db, observer, cart, cartOpener} = require('./firebase');
+const {db, observer, cart, cartOpener, setCartState} = require('./firebase');
 
 const app = express();
 
@@ -45,12 +45,20 @@ app.get('/', (req, res) => {
 });
 
 app.post('/cart/open', (req, res) => {
-    cartOpener(true).then(() => {
+    setCartState(true).then(() => {
         res.status(200).json({ message: 'cart opened' });
     }).catch((err) => {
         res.status(500).json({ error: err });
     });
-})
+});
+
+app.post('/cart/close', (req, res) => {
+    setCartState(false).then(() => {
+        res.status(200).json({ message: 'cart closed' });
+    }).catch((err) => {
+        res.status(500).json({ error: err });
+    });
+});
 
 const port = config.server.port;
 http.createServer(app).listen(port, () => {
