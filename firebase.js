@@ -12,7 +12,7 @@ const db = admin.firestore();
 const cart = db.collection('cart').where('price', '>', 0);
 const cartOpener = db.collection('open').doc('sesame');
 
-let lastSize = 0;
+let lastSize = -1;
 
 const setCartState = (isOpen) => {
     return cartOpener.set({cart: isOpen}).catch((err) => {
@@ -26,6 +26,10 @@ const openDelay = 3000;
 const observer = cart.onSnapshot(querySnapshot => {
     const size = querySnapshot.size;
     logger.info(`Received query snapshot of size ${size}`);
+    if (lastSize === -1) {
+        lastSize = size;
+        return;
+    }
     if (size > lastSize) {
         logger.info('Opening cart ...');
         setCartState(true)
@@ -37,7 +41,6 @@ const observer = cart.onSnapshot(querySnapshot => {
             });
     }
     lastSize = size;
-    // ...
 }, err => {
     console.log(`Encountered error: ${err}`);
 });
