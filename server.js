@@ -117,7 +117,9 @@ app.get('/availableCart/:storeName', (req, res) => {
 
 app.get('/items', (req, res) => {
     return res.status(200).json({ data: items });
-})
+});
+
+app.use('/docs', express.static('swagger-ui/dist'))
 
 const port = config.server.port;
 http.createServer(app).listen(port, () => {

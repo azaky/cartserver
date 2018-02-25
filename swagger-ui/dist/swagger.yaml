@@ -1,0 +1,63 @@
+swagger: "2.0"
+info:
+  description: "This is MagiCart API documentation"
+  version: "1.0.0"
+  title: "MagiCart API"
+host: "magicart.azaky.io"
+tags:
+- name: "api"
+  description: "API"
+schemes:
+- "http"
+paths:
+  /availableCart:
+    get:
+      tags:
+      - "api"
+      summary: "Get MagiCart availability in nearest stores"
+      description: ""
+      operationId: "availableCart"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+  /availableCart/{storeName}:
+    get:
+      tags:
+      - "api"
+      summary: "Get MagiCart availability in a given storeName"
+      parameters:
+      - name: "storeName"
+        in: "path"
+        description: "StoreName to find the MagiCart availability"
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  /items:
+    get:
+      tags:
+      - "api"
+      summary: "Get items along with their prices and images"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
