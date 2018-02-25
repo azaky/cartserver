@@ -42,7 +42,7 @@ app.use(expressLogger);
 app.use(unhandled500);
 
 app.get('/', (req, res) => {
-    res.status(200).json({ message: 'azaky/express-template. Please edit/delete this and add more endpoints' });
+    res.status(200).json({ message: 'MagiCart API. See http://magicart.azaky.io/docs for documentation' });
 });
 
 app.post('/cart/open', (req, res) => {
