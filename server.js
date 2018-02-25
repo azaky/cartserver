@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
@@ -59,6 +60,64 @@ app.post('/cart/close', (req, res) => {
         res.status(500).json({ error: err });
     });
 });
+
+const availableCart = [{
+    storeName: 'Indomaret',
+    availableCart: 6,
+}, {
+    storeName: 'Alfamart',
+    availableCart: 12,
+}];
+
+const items = [{
+    name: "Delfi Milk",
+    category: "Chocolate Drink",
+    description: "Minuman Coklat Susu yang disukai banyak orang",
+    picture: "https://firebasestorage.googleapis.com/v0/b/magi-cart.appspot.com/o/IMG_0006.JPG?alt=media",
+    price: 2500,
+}, {
+    name: "Delfi Hot Cocoa",
+    category: "Chocolate Drink",
+    description: "Minuman Coklat Delfi yang banyak digemari kaula muda",
+    picture: "https://1.bp.blogspot.com/-weoe9mbU4HE/V8qguvOBRHI/AAAAAAAAAQk/jxEyovrdBFIWVJ1oU_stMX1HQdtVw5KpgCLcB/s320/20022628_2.jpg",
+    price: 2000,
+}, {
+    name: "Torabika Capucino",
+    category: "Coffee",
+    description: "Kopi rasa Capucino khas Italia yang sudah terbukti",
+    picture: "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//97/MTA-1288816/torabika_torabika-cappuccino-choco-granule-12-s-x-25gr_full02.jpg",
+    price: 1500,
+}, {
+    name: "Bumbu Kentang Goreng",
+    category: "Spice",
+    description: "Bumbu pelengkap sajian kentang goreng anda",
+    picture: "https://www.bizzy.co.id/media/catalog/product/cache/image/700x560/e9c3970ab036de70892d86c6d221abfe/C/O/CONF-Ht41DgsqIX8A8ZcOGrBr.jpg",
+    price: 3500,
+}, {
+    name: "Kopi Kapal Api",
+    category: "Coffee",
+    description: "Kopi kapal api yang banyak digemari oleh warga Indonesia",
+    picture: "https://ecs7.tokopedia.net/img/product-1/2016/3/10/2785815/2785815_171a3108-70d6-49c7-af1e-77e242d09506.jpg",
+    price: 2500,
+}];
+
+app.get('/availableCart', (req, res) => {
+    return res.status(200).json({ data: availableCart });
+});
+
+app.get('/availableCart/:storeName', (req, res) => {
+    const storeName = req.params.storeName;
+    const idx = _.findIndex(availableCart, (obj) => obj.storeName === storeName);
+    if (idx === -1) {
+        return res.status(404).json({ message: `no store with name ${storeName} found` });
+    } else {
+        return res.status(200).json({ data: availableCart[idx] });
+    }
+});
+
+app.get('/items', (req, res) => {
+    return res.status(200).json({ data: items });
+})
 
 const port = config.server.port;
 http.createServer(app).listen(port, () => {
