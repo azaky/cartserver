@@ -6,9 +6,9 @@ module.exports = {
         port: '15562',
     },
     server: {
-        port: 8000 || process.env.PORT,
+        port: process.env.PORT || 8000,
         https: {
-            port: 8001 || process.env.HTTPS_PORT,
+            port: process.env.HTTPS_PORT || 8001,
             cert: null || process.env.HTTPS_CERT,
             key: null || process.env.HTTPS_KEY,
             ca: null || process.env.HTTPS_CA,
